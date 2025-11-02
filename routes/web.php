@@ -6,6 +6,7 @@ use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Post;
+use App\Http\Controllers\Admin;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,6 +20,14 @@ Route::prefix('posts')->group(function () {
     Route::get('/{post}/edit', Post\EditController::class)->name('post.edit');
     Route::patch('/{post}', Post\UpdateController::class)->name('post.update');
     Route::delete('/{post}', Post\DestroyController::class)->name('post.destroy');
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('/', Admin\IndexController::class)->name('admin.index');
+
+    Route::prefix('post')->group(function () {
+        Route::get('/', Admin\Post\IndexController::class)->name('admin.post.index');
+    });
 });
 
 Route::get('/posts/update', [PostController::class, 'update']);
